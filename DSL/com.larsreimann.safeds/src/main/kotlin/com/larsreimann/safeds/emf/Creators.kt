@@ -126,7 +126,7 @@ private val factory = SafeDSFactory.eINSTANCE
 fun createSdsDummyResource(
     fileName: String,
     fileExtension: SdsFileExtension,
-    compilationUnit: SdsCompilationUnit
+    compilationUnit: SdsCompilationUnit,
 ): Resource {
     val uri = URI.createURI("dummy:/$fileName.${fileExtension.extension}")
     return XtextResource(uri).apply {
@@ -144,13 +144,13 @@ fun createSdsDummyResource(
     fileName: String,
     fileExtension: SdsFileExtension,
     packageName: String,
-    init: SdsCompilationUnit.() -> Unit = {}
+    init: SdsCompilationUnit.() -> Unit = {},
 ): Resource {
     val uri = URI.createURI("dummy:/$fileName.${fileExtension.extension}")
     return XtextResource(uri).apply {
         this.contents += createSdsCompilationUnit(
             packageName = packageName,
-            init = init
+            init = init,
         )
     }
 }
@@ -161,7 +161,7 @@ fun createSdsDummyResource(
 fun createSdsAnnotation(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
-    parameters: List<SdsParameter> = emptyList()
+    parameters: List<SdsParameter> = emptyList(),
 ): SdsAnnotation {
     return factory.createSdsAnnotation().apply {
         this.name = name
@@ -176,7 +176,7 @@ fun createSdsAnnotation(
 fun SdsCompilationUnit.sdsAnnotation(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
-    parameters: List<SdsParameter> = emptyList()
+    parameters: List<SdsParameter> = emptyList(),
 ) {
     this.addMember(createSdsAnnotation(name, annotationCalls, parameters))
 }
@@ -186,7 +186,7 @@ fun SdsCompilationUnit.sdsAnnotation(
  */
 fun createSdsAnnotationCall(
     annotation: SdsAnnotation,
-    arguments: List<SdsArgument> = emptyList()
+    arguments: List<SdsArgument> = emptyList(),
 ): SdsAnnotationCall {
     return factory.createSdsAnnotationCall().apply {
         this.annotation = annotation
@@ -199,11 +199,11 @@ fun createSdsAnnotationCall(
  */
 fun createSdsAnnotationCall(
     annotationName: String,
-    arguments: List<SdsArgument> = emptyList()
+    arguments: List<SdsArgument> = emptyList(),
 ): SdsAnnotationCall {
     return createSdsAnnotationCall(
         createSdsAnnotation(annotationName),
-        arguments
+        arguments,
     )
 }
 
@@ -232,7 +232,7 @@ fun createSdsArgument(value: SdsAbstractExpression, parameter: SdsParameter? = n
 fun createSdsArgument(value: SdsAbstractExpression, parameterName: String): SdsArgument {
     return createSdsArgument(
         value,
-        createSdsParameter(parameterName)
+        createSdsParameter(parameterName),
     )
 }
 
@@ -317,7 +317,7 @@ fun createSdsAttribute(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     isStatic: Boolean = false,
-    type: SdsAbstractType? = null
+    type: SdsAbstractType? = null,
 ): SdsAttribute {
     return factory.createSdsAttribute().apply {
         this.name = name
@@ -334,7 +334,7 @@ fun SdsClass.sdsAttribute(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     isStatic: Boolean = false,
-    type: SdsAbstractType? = null
+    type: SdsAbstractType? = null,
 ) {
     this.addMember(createSdsAttribute(name, annotationCalls, isStatic, type))
 }
@@ -344,7 +344,7 @@ fun SdsClass.sdsAttribute(
  */
 fun createSdsBlock(
     statements: List<SdsAbstractStatement> = emptyList(),
-    init: SdsBlock.() -> Unit = {}
+    init: SdsBlock.() -> Unit = {},
 ): SdsBlock {
     return factory.createSdsBlock().apply {
         this.statements += statements
@@ -358,7 +358,7 @@ fun createSdsBlock(
 fun createSdsBlockLambda(
     parameters: List<SdsParameter> = emptyList(),
     statements: List<SdsAbstractStatement> = emptyList(),
-    init: SdsBlockLambda.() -> Unit = {}
+    init: SdsBlockLambda.() -> Unit = {},
 ): SdsBlockLambda {
     return factory.createSdsBlockLambda().apply {
         this.parameterList = createSdsLambdaParameterList(parameters)
@@ -403,7 +403,7 @@ fun createSdsBoolean(value: Boolean): SdsBoolean {
 fun createSdsCall(
     receiver: SdsAbstractExpression,
     typeArguments: List<SdsTypeArgument> = emptyList(),
-    arguments: List<SdsArgument> = emptyList()
+    arguments: List<SdsArgument> = emptyList(),
 ): SdsCall {
     return factory.createSdsCall().apply {
         this.receiver = receiver
@@ -434,7 +434,7 @@ fun createSdsClass(
     constraint: SdsConstraint? = null,
     protocol: SdsProtocol? = null,
     members: List<SdsAbstractClassMember> = emptyList(),
-    init: SdsClass.() -> Unit = {}
+    init: SdsClass.() -> Unit = {},
 ): SdsClass {
     return factory.createSdsClass().apply {
         this.name = name
@@ -461,7 +461,7 @@ fun SdsClass.sdsClass(
     constraint: SdsConstraint? = null,
     protocol: SdsProtocol? = null,
     members: List<SdsAbstractClassMember> = emptyList(),
-    init: SdsClass.() -> Unit = {}
+    init: SdsClass.() -> Unit = {},
 ) {
     this.addMember(
         createSdsClass(
@@ -473,8 +473,8 @@ fun SdsClass.sdsClass(
             constraint,
             protocol,
             members,
-            init
-        )
+            init,
+        ),
     )
 }
 
@@ -490,7 +490,7 @@ fun SdsCompilationUnit.sdsClass(
     constraint: SdsConstraint? = null,
     protocol: SdsProtocol? = null,
     members: List<SdsAbstractClassMember> = emptyList(),
-    init: SdsClass.() -> Unit = {}
+    init: SdsClass.() -> Unit = {},
 ) {
     this.addMember(
         createSdsClass(
@@ -502,8 +502,8 @@ fun SdsCompilationUnit.sdsClass(
             constraint,
             protocol,
             members,
-            init
-        )
+            init,
+        ),
     )
 }
 
@@ -526,7 +526,7 @@ fun createSdsCompilationUnit(
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     imports: List<SdsImport> = emptyList(),
     members: List<SdsAbstractCompilationUnitMember> = emptyList(),
-    init: SdsCompilationUnit.() -> Unit = {}
+    init: SdsCompilationUnit.() -> Unit = {},
 ): SdsCompilationUnit {
     return factory.createSdsCompilationUnit().apply {
         this.name = packageName
@@ -558,7 +558,7 @@ fun createSdsConstraint(goals: List<SdsAbstractConstraintGoal>): SdsConstraint {
  */
 fun createSdsColumn(
     columnName: SdsString,
-    columnType: SdsAbstractType
+    columnType: SdsAbstractType,
 ): SdsColumn {
     return factory.createSdsColumn().apply {
         this.columnName = columnName
@@ -573,7 +573,7 @@ fun createSdsEnum(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     variants: List<SdsEnumVariant> = emptyList(),
-    init: SdsEnum.() -> Unit = {}
+    init: SdsEnum.() -> Unit = {},
 ): SdsEnum {
     return factory.createSdsEnum().apply {
         this.name = name
@@ -590,7 +590,7 @@ fun SdsClass.sdsEnum(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     variants: List<SdsEnumVariant> = emptyList(),
-    init: SdsEnum.() -> Unit = {}
+    init: SdsEnum.() -> Unit = {},
 ) {
     this.addMember(createSdsEnum(name, annotationCalls, variants, init))
 }
@@ -602,7 +602,7 @@ fun SdsCompilationUnit.sdsEnum(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     variants: List<SdsEnumVariant> = emptyList(),
-    init: SdsEnum.() -> Unit = {}
+    init: SdsEnum.() -> Unit = {},
 ) {
     this.addMember(createSdsEnum(name, annotationCalls, variants, init))
 }
@@ -626,7 +626,7 @@ fun createSdsEnumVariant(
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     typeParameters: List<SdsTypeParameter> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
-    constraint: SdsConstraint? = null
+    constraint: SdsConstraint? = null,
 ): SdsEnumVariant {
     return factory.createSdsEnumVariant().apply {
         this.name = name
@@ -645,7 +645,7 @@ fun SdsEnum.sdsEnumVariant(
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     typeParameters: List<SdsTypeParameter> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
-    constraint: SdsConstraint? = null
+    constraint: SdsConstraint? = null,
 ) {
     this.addVariant(createSdsEnumVariant(name, annotationCalls, typeParameters, parameters, constraint))
 }
@@ -671,7 +671,7 @@ fun SdsPredicate.sdsExpressionGoal(expression: SdsAbstractGoalExpression) {
  */
 fun createSdsExpressionLambda(
     parameters: List<SdsParameter> = emptyList(),
-    result: SdsAbstractExpression
+    result: SdsAbstractExpression,
 ): SdsExpressionLambda {
     return factory.createSdsExpressionLambda().apply {
         this.parameterList = createSdsLambdaParameterList(parameters)
@@ -734,7 +734,7 @@ fun createSdsFunction(
     typeParameters: List<SdsTypeParameter> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
     results: List<SdsResult> = emptyList(),
-    constraint: SdsConstraint? = null
+    constraint: SdsConstraint? = null,
 ): SdsFunction {
     return factory.createSdsFunction().apply {
         this.name = name
@@ -768,7 +768,7 @@ fun SdsClass.sdsFunction(
     typeParameters: List<SdsTypeParameter> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
     results: List<SdsResult> = emptyList(),
-    constraint: SdsConstraint? = null
+    constraint: SdsConstraint? = null,
 ) {
     this.addMember(
         createSdsFunction(
@@ -778,8 +778,8 @@ fun SdsClass.sdsFunction(
             typeParameters,
             parameters,
             results,
-            constraint
-        )
+            constraint,
+        ),
     )
 }
 
@@ -793,7 +793,7 @@ fun SdsCompilationUnit.sdsFunction(
     typeParameters: List<SdsTypeParameter> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
     results: List<SdsResult> = emptyList(),
-    constraint: SdsConstraint? = null
+    constraint: SdsConstraint? = null,
 ) {
     this.addMember(
         createSdsFunction(
@@ -803,8 +803,8 @@ fun SdsCompilationUnit.sdsFunction(
             typeParameters,
             parameters,
             results,
-            constraint
-        )
+            constraint,
+        ),
     )
 }
 
@@ -824,7 +824,7 @@ fun createSdsGoalArgument(value: SdsAbstractGoalExpression, parameter: SdsParame
 fun createSdsGoalArgument(value: SdsAbstractGoalExpression, parameterName: String): SdsGoalArgument {
     return createSdsGoalArgument(
         value,
-        createSdsParameter(parameterName)
+        createSdsParameter(parameterName),
     )
 }
 
@@ -842,7 +842,7 @@ fun createSdsGoalArgumentList(arguments: List<SdsGoalArgument>): SdsGoalArgument
  */
 fun createSdsGoalCall(
     receiver: SdsAbstractGoalExpression,
-    arguments: List<SdsGoalArgument>
+    arguments: List<SdsGoalArgument>,
 ): SdsGoalCall {
     return factory.createSdsGoalCall().apply {
         this.receiver = receiver
@@ -895,7 +895,7 @@ private fun createSdsImportAlias(name: String?): SdsImportAlias? {
  * Returns a new object of class [SdsIndexedAccess].
  */
 fun createSdsIndexedAccess(
-    index: SdsAbstractExpression
+    index: SdsAbstractExpression,
 ): SdsIndexedAccess {
     return factory.createSdsIndexedAccess().apply {
         this.index = index
@@ -908,7 +908,7 @@ fun createSdsIndexedAccess(
 fun createSdsInfixOperation(
     leftOperand: SdsAbstractExpression,
     operator: SdsInfixOperationOperator,
-    rightOperand: SdsAbstractExpression
+    rightOperand: SdsAbstractExpression,
 ): SdsInfixOperation {
     return factory.createSdsInfixOperation().apply {
         this.leftOperand = leftOperand
@@ -938,7 +938,7 @@ fun createSdsInt(value: Int): SdsAbstractExpression {
 fun createSdsMemberAccess(
     receiver: SdsAbstractExpression,
     member: SdsReference,
-    isNullSafe: Boolean = false
+    isNullSafe: Boolean = false,
 ): SdsMemberAccess {
     return factory.createSdsMemberAccess().apply {
         this.receiver = receiver
@@ -963,7 +963,7 @@ fun createSdsMemberType(receiver: SdsAbstractType, member: SdsNamedType): SdsMem
 fun createSdsNamedType(
     declaration: SdsAbstractNamedTypeDeclaration,
     typeArguments: List<SdsTypeArgument> = emptyList(),
-    isNullable: Boolean = false
+    isNullable: Boolean = false,
 ): SdsNamedType {
     return factory.createSdsNamedType().apply {
         this.declaration = declaration
@@ -987,7 +987,7 @@ fun createSdsParameter(
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     isVariadic: Boolean = false,
     type: SdsAbstractType? = null,
-    defaultValue: SdsAbstractExpression? = null
+    defaultValue: SdsAbstractExpression? = null,
 ): SdsParameter {
     return factory.createSdsParameter().apply {
         this.name = name
@@ -1071,7 +1071,7 @@ fun createSdsPredicate(
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
     results: List<SdsResult> = emptyList(),
-    goals: List<SdsAbstractGoal> = emptyList()
+    goals: List<SdsAbstractGoal> = emptyList(),
 ): SdsPredicate {
     return factory.createSdsPredicate().apply {
         this.name = name
@@ -1090,7 +1090,7 @@ fun SdsCompilationUnit.sdsPredicate(
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
     results: List<SdsResult> = emptyList(),
-    goals: List<SdsAbstractGoal> = emptyList()
+    goals: List<SdsAbstractGoal> = emptyList(),
 ) {
     this.addMember(
         createSdsPredicate(
@@ -1098,8 +1098,8 @@ fun SdsCompilationUnit.sdsPredicate(
             annotationCalls,
             parameters,
             results,
-            goals
-        )
+            goals,
+        ),
     )
 }
 
@@ -1130,7 +1130,7 @@ fun createSdsPrefixOperation(operator: SdsPrefixOperationOperator, operand: SdsA
 fun createSdsProtocol(
     subterms: List<SdsProtocolSubterm> = emptyList(),
     term: SdsAbstractProtocolTerm? = null,
-    init: SdsProtocol.() -> Unit = {}
+    init: SdsProtocol.() -> Unit = {},
 ): SdsProtocol {
     return factory.createSdsProtocol().apply {
         this.body = factory.createSdsProtocolBody()
@@ -1146,7 +1146,7 @@ fun createSdsProtocol(
 fun SdsClass.sdsProtocol(
     subterms: List<SdsProtocolSubterm> = emptyList(),
     term: SdsAbstractProtocolTerm? = null,
-    init: SdsProtocol.() -> Unit = {}
+    init: SdsProtocol.() -> Unit = {},
 ) {
     this.addMember(createSdsProtocol(subterms, term, init))
 }
@@ -1184,7 +1184,7 @@ fun createSdsProtocolAlternative(terms: List<SdsAbstractProtocolTerm>): SdsProto
  */
 fun createSdsProtocolComplement(
     universe: SdsProtocolTokenClass? = null,
-    references: List<SdsProtocolReference> = emptyList()
+    references: List<SdsProtocolReference> = emptyList(),
 ): SdsProtocolComplement {
     return factory.createSdsProtocolComplement().apply {
         this.universe = universe
@@ -1206,7 +1206,7 @@ fun createSdsProtocolParenthesizedTerm(term: SdsAbstractProtocolTerm): SdsProtoc
  */
 fun createSdsProtocolQuantifiedTerm(
     term: SdsAbstractProtocolTerm,
-    quantifier: SdsProtocolQuantifiedTermQuantifier
+    quantifier: SdsProtocolQuantifiedTermQuantifier,
 ): SdsProtocolQuantifiedTerm {
     return factory.createSdsProtocolQuantifiedTerm().apply {
         this.term = term
@@ -1288,7 +1288,7 @@ fun createSdsReference(declaration: SdsAbstractDeclaration): SdsReference {
 fun createSdsResult(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
-    type: SdsAbstractType? = null
+    type: SdsAbstractType? = null,
 ): SdsResult {
     return factory.createSdsResult().apply {
         this.name = name
@@ -1319,7 +1319,7 @@ fun createSdsStarProjection(): SdsStarProjection {
 fun createSdsSchema(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
-    columns: List<SdsColumn> = emptyList()
+    columns: List<SdsColumn> = emptyList(),
 ): SdsSchema {
     return factory.createSdsSchema().apply {
         this.name = name
@@ -1334,14 +1334,14 @@ fun createSdsSchema(
 fun SdsCompilationUnit.sdsSchema(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
-    columns: List<SdsColumn> = emptyList()
+    columns: List<SdsColumn> = emptyList(),
 ) {
     this.addMember(
         createSdsSchema(
             name,
             annotationCalls,
-            columns
-        )
+            columns,
+        ),
     )
 }
 
@@ -1361,7 +1361,7 @@ private fun SdsSchema.addColumn(column: SdsColumn) {
 fun createSdsSchemaEffectPredicate(
     effect: String,
     parameters: List<SdsParameter> = emptyList(),
-    results: List<SdsResult> = emptyList()
+    results: List<SdsResult> = emptyList(),
 ): SdsSchemaEffectPredicate {
     return factory.createSdsSchemaEffectPredicate().apply {
         this.effect = effect
@@ -1374,7 +1374,7 @@ fun createSdsSchemaEffectPredicate(
  * Returns a new object of class [SdsSchemaEffectReference].
  */
 fun createSdsSchemaEffectReference(
-    schemaEffect: SdsSchemaEffect = SdsSchemaEffect.NoSchemaEffect
+    schemaEffect: SdsSchemaEffect = SdsSchemaEffect.NoSchemaEffect,
 ): SdsSchemaEffectReference {
     return factory.createSdsSchemaEffectReference().apply {
         this.effect = schemaEffect.effect
@@ -1391,7 +1391,7 @@ fun createSdsStep(
     parameters: List<SdsParameter> = emptyList(),
     results: List<SdsResult> = emptyList(),
     statements: List<SdsAbstractStatement> = emptyList(),
-    init: SdsStep.() -> Unit = {}
+    init: SdsStep.() -> Unit = {},
 ): SdsStep {
     return factory.createSdsStep().apply {
         this.name = name
@@ -1415,7 +1415,7 @@ fun SdsCompilationUnit.sdsStep(
     parameters: List<SdsParameter> = emptyList(),
     results: List<SdsResult> = emptyList(),
     statements: List<SdsAbstractStatement> = emptyList(),
-    init: SdsStep.() -> Unit = {}
+    init: SdsStep.() -> Unit = {},
 ) {
     this.addMember(
         createSdsStep(
@@ -1425,8 +1425,8 @@ fun SdsCompilationUnit.sdsStep(
             parameters,
             results,
             statements,
-            init
-        )
+            init,
+        ),
     )
 }
 
@@ -1460,7 +1460,7 @@ fun createSdsString(value: String): SdsString {
  */
 fun createSdsTemplateString(
     stringParts: List<String>,
-    templateExpressions: List<SdsAbstractExpression>
+    templateExpressions: List<SdsAbstractExpression>,
 ): SdsTemplateString {
     // One of the first two checks is sufficient but this allows better error messages.
     if (stringParts.size < 2) {
@@ -1508,7 +1508,7 @@ fun createSdsTemplateString(
  */
 fun createSdsTypeArgument(
     value: SdsAbstractTypeArgumentValue,
-    typeParameter: SdsTypeParameter? = null
+    typeParameter: SdsTypeParameter? = null,
 ): SdsTypeArgument {
     return factory.createSdsTypeArgument().apply {
         this.value = value
@@ -1521,11 +1521,11 @@ fun createSdsTypeArgument(
  */
 fun createSdsTypeArgument(
     value: SdsAbstractTypeArgumentValue,
-    typeParameterName: String
+    typeParameterName: String,
 ): SdsTypeArgument {
     return createSdsTypeArgument(
         value,
-        createSdsTypeParameter(typeParameterName)
+        createSdsTypeParameter(typeParameterName),
     )
 }
 
@@ -1545,7 +1545,7 @@ fun createSdsTypeParameter(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     variance: SdsVariance = SdsVariance.Invariant,
-    kind: SdsKind = SdsKind.NoKind
+    kind: SdsKind = SdsKind.NoKind,
 ): SdsTypeParameter {
     return factory.createSdsTypeParameter().apply {
         this.name = name
@@ -1570,7 +1570,7 @@ fun createSdsTypeParameterList(typeParameters: List<SdsTypeParameter>): SdsTypeP
 fun createSdsTypeParameterConstraintGoal(
     leftOperand: SdsTypeParameter,
     operator: SdsTypeParameterConstraintOperator,
-    rightOperand: SdsAbstractType
+    rightOperand: SdsAbstractType,
 ): SdsTypeParameterConstraintGoal {
     return factory.createSdsTypeParameterConstraintGoal().apply {
         this.leftOperand = leftOperand
@@ -1585,12 +1585,12 @@ fun createSdsTypeParameterConstraintGoal(
 fun createSdsTypeParameterConstraintGoal(
     leftOperandName: String,
     operator: SdsTypeParameterConstraintOperator,
-    rightOperand: SdsAbstractType
+    rightOperand: SdsAbstractType,
 ): SdsTypeParameterConstraintGoal {
     return createSdsTypeParameterConstraintGoal(
         createSdsTypeParameter(leftOperandName),
         operator,
-        rightOperand
+        rightOperand,
     )
 }
 
@@ -1633,7 +1633,7 @@ fun createSdsWorkflow(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     statements: List<SdsAbstractStatement> = emptyList(),
-    init: SdsWorkflow.() -> Unit = {}
+    init: SdsWorkflow.() -> Unit = {},
 ): SdsWorkflow {
     return factory.createSdsWorkflow().apply {
         this.name = name
@@ -1651,7 +1651,7 @@ fun SdsCompilationUnit.sdsWorkflow(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     statements: List<SdsAbstractStatement> = emptyList(),
-    init: SdsWorkflow.() -> Unit = {}
+    init: SdsWorkflow.() -> Unit = {},
 ) {
     this.addMember(createSdsWorkflow(name, annotationCalls, statements, init))
 }
