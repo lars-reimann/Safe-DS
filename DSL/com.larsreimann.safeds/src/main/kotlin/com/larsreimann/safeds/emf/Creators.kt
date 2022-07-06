@@ -626,7 +626,7 @@ fun createSdsEnumVariant(
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     typeParameters: List<SdsTypeParameter> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
-    constraint: SdsConstraint? = null,
+    constraint: SdsConstraint? = null
 ): SdsEnumVariant {
     return factory.createSdsEnumVariant().apply {
         this.name = name
@@ -1071,7 +1071,7 @@ fun createSdsPredicate(
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
     results: List<SdsResult> = emptyList(),
-    goals: List<SdsAbstractGoal> = emptyList(),
+    goals: List<SdsAbstractGoal> = emptyList()
 ): SdsPredicate {
     return factory.createSdsPredicate().apply {
         this.name = name
@@ -1090,7 +1090,7 @@ fun SdsCompilationUnit.sdsPredicate(
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
     results: List<SdsResult> = emptyList(),
-    goals: List<SdsAbstractGoal> = emptyList(),
+    goals: List<SdsAbstractGoal> = emptyList()
 ) {
     this.addMember(
         createSdsPredicate(
@@ -1462,7 +1462,6 @@ fun createSdsTemplateString(
     stringParts: List<String>,
     templateExpressions: List<SdsAbstractExpression>
 ): SdsTemplateString {
-
     // One of the first two checks is sufficient but this allows better error messages.
     if (stringParts.size < 2) {
         throw IllegalArgumentException("Must have at least two string parts.")
