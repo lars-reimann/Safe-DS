@@ -300,6 +300,12 @@ fun SdsNamedType?.typeArgumentsOrEmpty(): List<SdsTypeArgument> {
     return this?.typeArgumentList?.typeArguments.orEmpty()
 }
 
+@OptIn(ExperimentalSdsApi::class)
+fun SdsNamedType.isSchemaType() : Boolean{
+    val declaration = this.declaration
+    return declaration is SdsTypeParameter && declaration.hasSchemaKind()
+}
+
 // SdsPredicate ------------------------------------------------------------------------------------
 
 @ExperimentalSdsApi
@@ -310,6 +316,11 @@ fun SdsPredicate?.goalsOrEmpty(): List<SdsAbstractGoal> {
 @ExperimentalSdsApi
 fun SdsPredicate?.parametersOrEmpty(): List<SdsParameter> {
     return this?.parameterList?.parameters.orEmpty()
+}
+
+@ExperimentalSdsApi
+fun SdsPredicate?.isAbstract(): Boolean {
+    return this?.goalList == null
 }
 
 // SdsProtocol -------------------------------------------------------------------------------------
