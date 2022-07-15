@@ -71,6 +71,7 @@ import com.larsreimann.safeds.safeDS.SdsNamedType
 import com.larsreimann.safeds.safeDS.SdsNull
 import com.larsreimann.safeds.safeDS.SdsParameter
 import com.larsreimann.safeds.safeDS.SdsParameterList
+import com.larsreimann.safeds.safeDS.SdsParameterisedType
 import com.larsreimann.safeds.safeDS.SdsParentTypeList
 import com.larsreimann.safeds.safeDS.SdsParenthesizedExpression
 import com.larsreimann.safeds.safeDS.SdsParenthesizedGoalExpression
@@ -1063,11 +1064,21 @@ fun createSdsPlaceholder(name: String): SdsPlaceholder {
 }
 
 /**
+ * Returns a new object of class [SdsParameterisedType].
+ */
+fun createSdsParameterisedType(type: SdsNamedType? = null): SdsParameterisedType {
+    return factory.createSdsParameterisedType().apply {
+        this.type = type
+    }
+}
+
+/**
  * Returns a new object of class [SdsPredicate].
  */
 fun createSdsPredicate(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
+    typeParameters: List<SdsTypeParameter> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
     results: List<SdsResult> = emptyList(),
     goals: List<SdsAbstractGoal> = emptyList(),
@@ -1075,6 +1086,7 @@ fun createSdsPredicate(
     return factory.createSdsPredicate().apply {
         this.name = name
         this.annotationCallList = createSdsAnnotationCallList(annotationCalls)
+        this.typeParameterList = typeParameters.nullIfEmptyElse(::createSdsTypeParameterList)
         this.parameterList = createSdsParameterList(parameters)
         this.resultList = results.nullIfEmptyElse(::createSdsResultList)
         goals.forEach { addGoal(it) }
@@ -1087,6 +1099,7 @@ fun createSdsPredicate(
 fun SdsCompilationUnit.sdsPredicate(
     name: String,
     annotationCalls: List<SdsAnnotationCall> = emptyList(),
+    typeParameters: List<SdsTypeParameter> = emptyList(),
     parameters: List<SdsParameter> = emptyList(),
     results: List<SdsResult> = emptyList(),
     goals: List<SdsAbstractGoal> = emptyList(),
@@ -1095,6 +1108,7 @@ fun SdsCompilationUnit.sdsPredicate(
         createSdsPredicate(
             name,
             annotationCalls,
+            typeParameters,
             parameters,
             results,
             goals,
